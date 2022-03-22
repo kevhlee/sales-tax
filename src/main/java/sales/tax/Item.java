@@ -1,3 +1,5 @@
+package sales.tax;
+
 public class Item {
 
     private final String name;

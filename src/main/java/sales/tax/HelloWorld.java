@@ -1,3 +1,5 @@
+package sales.tax;
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -45,7 +47,7 @@ class HelloWorld {
 
 		try {
 			for (int i = 0; i < itemsPurchased; i++) {
-				System.out.print("\n" + "Item #" + (i + 1) + "\n");
+				System.out.print("\n" + "sales.tax.Item #" + (i + 1) + "\n");
 
 				// Input the item purchased
 				System.out.print("What item did you purchase: ");
