@@ -8,15 +8,34 @@ import java.text.*;
 class HelloWorld {
 
 	public static void main(String[] args) {
+		DecimalFormat df = new DecimalFormat("$0.00");
 
+		List<Item> items = createOrder();
+
+		// Find sales tax
+		// Round up to the nearest 0.05
+		double totalSalesTax = 0.0;
+		double totalCost = 0.0;
+
+		for (Item item : items) {
+			totalSalesTax += item.getTaxAmount();
+			totalCost += item.getTotalPriceWithTax();
+		}
+
+		System.out.print("\n" + "Receipt Details:" + "\n");
+		for (Item item : items) {
+			System.out.print(item.getQuantity() + " " + item.getName() + ": " + df.format(item.getTotalPriceWithTax()) + "\n");
+		}
+		System.out.print("Sales Taxes: " + df.format(totalSalesTax) + "\n");
+		System.out.print("Total: " + df.format(totalCost) + "\n");
+	}
+
+	private static List<Item> createOrder() {
 		List<Item> items = new ArrayList<>();
 
 		String input = null;
 		int itemsPurchased = 0;
-		double totalSalesTax = 0, totalCost = 0;
 		boolean inputFlag = true;
-
-		DecimalFormat df = new DecimalFormat("$0.00");
 
 		// Create a buffered reader to handle the input from the user
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -94,12 +113,6 @@ class HelloWorld {
 				Item item = new Item(name, price, quantity, exempt, imported);
 
 				items.add(item);
-
-				// Find sales tax
-				// Round up to the nearest 0.05
-
-				totalSalesTax += item.getTaxAmount();
-				totalCost += item.getTotalPriceWithTax();
 			}
 		}
 		catch (IOException e) {
@@ -107,11 +120,6 @@ class HelloWorld {
 			System.exit(1);
 		}
 
-		System.out.print("\n" + "Receipt Details:" + "\n");
-		for (Item item : items) {
-			System.out.print(item.getQuantity() + " " + item.getName() + ": " + df.format(item.getTotalPriceWithTax()) + "\n");
-		}
-		System.out.print("Sales Taxes: " + df.format(totalSalesTax) + "\n");
-		System.out.print("Total: " + df.format(totalCost) + "\n");
+		return items;
 	}
 }
