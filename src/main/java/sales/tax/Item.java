@@ -2,6 +2,9 @@ package sales.tax;
 
 public class Item {
 
+    public static final double SALES_TAX = 0.10;
+    public static final double IMPORT_TAX = 0.05;
+
     private final String name;
     private final double price;
     private final int quantity;
@@ -30,6 +33,27 @@ public class Item {
 
     public int getQuantity() {
         return quantity;
+    }
+
+    public double getTotalPriceWithTax() {
+        return price * quantity + getTaxAmount();
+    }
+
+    public double getTaxAmount() {
+        double tax = 0;
+        double cost = price * quantity;
+
+        // Compute basic sales tax
+        if (!isTaxExempt()) {
+            tax += (Math.ceil(cost * SALES_TAX * 20)) / 20;
+        }
+
+        // Compute import tax
+        if (isImported()) {
+            tax += (Math.ceil(cost * IMPORT_TAX * 20)) / 20;
+        }
+
+        return tax;
     }
 
     public boolean isTaxExempt() {
