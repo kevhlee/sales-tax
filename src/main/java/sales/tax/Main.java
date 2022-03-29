@@ -7,30 +7,13 @@ import java.text.*;
 class Main {
 
 	public static void main(String[] args) {
-		DecimalFormat df = new DecimalFormat("$0.00");
+		Order order = createOrder();
 
-		List<Item> items = createOrder();
-
-		// Find sales tax
-		// Round up to the nearest 0.05
-		double totalSalesTax = 0.0;
-		double totalCost = 0.0;
-
-		for (Item item : items) {
-			totalSalesTax += item.getTaxAmount();
-			totalCost += item.getTotalPriceWithTax();
-		}
-
-		System.out.print("\n" + "Receipt Details:" + "\n");
-		for (Item item : items) {
-			System.out.print(item.getQuantity() + " " + item.getName() + ": " + df.format(item.getTotalPriceWithTax()) + "\n");
-		}
-		System.out.print("Sales Taxes: " + df.format(totalSalesTax) + "\n");
-		System.out.print("Total: " + df.format(totalCost) + "\n");
+		System.out.println(order.generateReceipt());
 	}
 
-	private static List<Item> createOrder() {
-		List<Item> items = new ArrayList<>();
+	private static Order createOrder() {
+		Order order = new Order();
 
 		int itemsPurchased = 0;
 
@@ -61,7 +44,7 @@ class Main {
 
 				Item item = new Item(name, price, quantity, exempt, imported);
 
-				items.add(item);
+				order.addItem(item);
 			}
 		}
 		catch (IOException e) {
@@ -69,7 +52,7 @@ class Main {
 			System.exit(1);
 		}
 
-		return items;
+		return order;
 	}
 
 	private static String promptInput(BufferedReader bufferedReader, String prompt) throws IOException {
