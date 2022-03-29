@@ -1,11 +1,10 @@
 package sales.tax;
 
 import java.io.*;
-import java.net.*;
 import java.util.*;
 import java.text.*;
 
-class HelloWorld {
+class Main {
 
 	public static void main(String[] args) {
 		DecimalFormat df = new DecimalFormat("$0.00");
